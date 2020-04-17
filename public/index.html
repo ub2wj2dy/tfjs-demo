@@ -5,28 +5,25 @@
 
 		<meta charset="UTF-8" />
 		<title>TensorFlow.js OBD Demo</title>
-		<!-- Load TensorFlow.js-->
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-		<!-- Load the coco-ssd model. -->
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-
-		<link rel="stylesheet" href="/bundle.css">
 	</head>
 	<body>
-		<div>
-			<video
-				id = "video"
-				autoPlay
-				muted
-				width = "720"
-				height = "600"
+		<div class="server-side">
+			<img
+				id = "image"
 			></video>
-			<canvas
-				id="canvas"
-				width="720"
-				height="600"
-			></canvas>
 		</div>
-		<script type="text/javascript" src="/bundle.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const socket = io();
+			const imageElement = document.getElementById('image');
+
+			socket.on('image', (data) => {
+				imageElement.src = `data:image/jpeg;base64,${data}`;
+			});
+
+			socket.on('detected', (detectedObjects) => {
+				console.dir(detectedObjects);
+			})
+		</script>
 	</body>
 </html>
