@@ -36,12 +36,10 @@ cocoSsd.load('mobilenet_v2').then((model) => {
 			// BGR to RGB
 			const frame_rgb = frame.cvtColor(cv.COLOR_BGR2RGB);
 			const tensor = tf
-				.tensor3d(new Uint8Array(frame_rgb.getData()), [width, height, 3], 'int32');
-
+				.tensor3d(new Uint8Array(frame_rgb.getData()), [height, width, 3], 'int32');
 			model.detect(tensor).then((detectedObjects) => {
 				io.emit('detected', detectedObjects);
 			});
-			
 		});
 	}
 
